@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
 
@@ -9,8 +9,10 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
+#include <d3d9.h>
 #include "SampleKeyEventHandler.h"
+
+#include "HUD.h"
 
 using namespace std;
 
@@ -191,6 +193,40 @@ void CPlayScene::LoadAssets(LPCWSTR assetFile)
 		}
 	}
 
+
+	CTextures* textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_MISC, L"textures\\misc.png");
+	LPTEXTURE texMisc = textures->Get(ID_TEX_MISC);
+	CSprites* sprites = CSprites::GetInstance();
+
+	// Digits 0–9
+	sprites->Add(70000, 495, 224, 504, 238, texMisc); // 0
+	sprites->Add(70001, 504, 224, 513, 238, texMisc); // 1
+	sprites->Add(70002, 513, 224, 522, 238, texMisc); // 2
+	sprites->Add(70003, 522, 224, 531, 238, texMisc); // 3
+	sprites->Add(70004, 531, 224, 540, 238, texMisc); // 4
+	sprites->Add(70005, 495, 238, 504, 252, texMisc); // 5
+	sprites->Add(70006, 504, 238, 513, 252, texMisc); // 6
+	sprites->Add(70007, 513, 238, 522, 252, texMisc); // 7
+	sprites->Add(70008, 522, 238, 531, 252, texMisc); // 8
+	sprites->Add(70009, 531, 238, 540, 252, texMisc); // 9
+
+	// Letters
+	sprites->Add(70100, 574, 222, 583, 231, texMisc); // M
+	sprites->Add(70101, 547, 213, 556, 222, texMisc); // A
+	sprites->Add(70102, 619, 222, 628, 231, texMisc); // R
+	sprites->Add(70103, 620, 213, 627, 222, texMisc); // I
+	sprites->Add(70104, 592, 222, 601, 231, texMisc); // O
+	sprites->Add(70105, 595, 191, 606, 202, texMisc); // <3
+	sprites->Add(70106, 457, 195, 465, 204, texMisc); // W
+	sprites->Add(70107, 457, 304, 465, 312, texMisc); // L
+	sprites->Add(70108, 465, 304, 473, 312, texMisc); // D
+	sprites->Add(70109, 556, 231, 565, 240, texMisc); // T
+	sprites->Add(70110, 583, 213, 592, 222, texMisc); // E
+	sprites->Add(70111, 560, 254, 562, 255, texMisc); // -
+	// WORLD block: (457, 195, 501, 204)
+	sprites->Add(ID_SPRITE_TEXT_WORLD, 457, 195, 501, 204, texMisc);
+
 	f.close();
 
 	DebugOut(L"[INFO] Done loading assets from %s\n", assetFile);
@@ -269,6 +305,9 @@ void CPlayScene::Render()
 {
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	HUD hud;
+	hud.Render(10, 10, 123456, 7, 298, 1);
+
 }
 
 /*

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //
 // This file contains all IDs of game assets 
@@ -6,7 +6,25 @@
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
+#define ID_TEX_MISC 90
+
+// Digits 0–9
+#define ID_SPRITE_DIGIT_0 70000 // đến 70009
+
+// Letters
+#define ID_SPRITE_CHAR_M 70100
+#define ID_SPRITE_CHAR_A 70101
+#define ID_SPRITE_CHAR_R 70102
+#define ID_SPRITE_CHAR_I 70103
+#define ID_SPRITE_CHAR_O 70104
+#define ID_SPRITE_CHAR_X 70105
+#define ID_SPRITE_CHAR_W 70106
+#define ID_SPRITE_CHAR_L 70107
+#define ID_SPRITE_CHAR_D 70108
+#define ID_SPRITE_CHAR_T 70109
+#define ID_SPRITE_CHAR_E 70110
+#define ID_SPRITE_CHAR_E 70111
+#define ID_SPRITE_TEXT_WORLD 70200
 
 
 #define OBJECT_TYPE_MARIO	0
