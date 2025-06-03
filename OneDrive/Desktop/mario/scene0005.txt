@@ -4,6 +4,7 @@ mario.txt
 coin.txt
 cloud.txt
 brick.txt
+koopa.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -11,6 +12,7 @@ brick.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
+3	160	120  # KOOPA
 0	120	10
 
 #COIN
@@ -42,4 +44,3 @@ brick.txt
 
 #Portal 
 50	200	160	216	180	1
-

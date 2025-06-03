@@ -1,0 +1,20 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# WALK LEFT 1
+41001	5	129	22	156	10
+
+# WALK LEFT 2
+41002	27	128	44	156	10
+
+# SPIN 1
+42001	49	138	66	155	10
+
+# SPIN 2
+42002	70	138	89	155	10
+
+[ANIMATIONS]
+# Walking (2 bước)
+6000	41001	100	41002	100
+
+# Spinning (2 dạng)
+6001	42001	100	42002	100
