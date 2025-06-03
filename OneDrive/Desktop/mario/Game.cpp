@@ -559,3 +559,20 @@ CGame* CGame::GetInstance()
 	return __instance;
 }
 
+void CGame::DrawText(std::string text, int x, int y)
+{
+	HDC hdc = GetDC(this->hWnd);
+	SetBkMode(hdc, TRANSPARENT);
+	SetTextColor(hdc, RGB(255, 255, 255));
+	TextOutA(hdc, x, y, text.c_str(), text.length());
+	ReleaseDC(this->hWnd, hdc);
+}
+
+//
+
+bool CGame::IsColliding(float l1, float t1, float r1, float b1,
+	float l2, float t2, float r2, float b2)
+{
+	return !(r1 < l2 || r2 < l1 || b1 < t2 || b2 < t1);
+}
+

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 //#include "Koopas.h"
+#include "HUD.h"
 
 
 class CPlayScene: public CScene
@@ -24,6 +25,8 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
+
+	HUD hud; // 
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
@@ -39,6 +42,13 @@ public:
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+
+	int score = 0;
+	int coins = 0;
+	int timeLeft = 300; // Giảm dần mỗi frame nếu muốn
+	int life = 3;
+	
+
 };
 
 typedef CPlayScene* LPPLAYSCENE;

@@ -114,6 +114,13 @@ public:
 
 	void _ParseSection_TEXTURES(string line);
 
+	void DrawText(std::string text, int x, int y);
+
+	//
+
+	static bool IsColliding(float l1, float t1, float r1, float b1,
+		float l2, float t2, float r2, float b2);
+
 
 	~CGame();
 };
