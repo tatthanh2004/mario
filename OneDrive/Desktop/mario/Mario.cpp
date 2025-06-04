@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Mario.h"
@@ -7,8 +7,11 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
+#include "Koopa.h"
 
 #include "Collision.h"
+
+#include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -49,12 +52,67 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CKoopa*>(e->obj))
+		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+
+	//
+
 }
 
+//
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	// Nếu Mario ở TRÊN đạp xuống Koopa → chỉ lúc này mới xử lý đạp
+	if (e->ny < 0)
+	{
+		if (koopa->GetState() == KOOPA_STATE_WALKING)
+		{
+			koopa->SetState(KOOPA_STATE_SPIN);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			return;
+		}
+
+		if (koopa->GetState() == KOOPA_STATE_SPIN && koopa->GetVX() != 0)
+		{
+			koopa->SetVX(0);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			return;
+		}
+	}
+
+	
+	if (untouchable) return;
+
+	if (koopa->GetState() == KOOPA_STATE_SPIN && koopa->GetVX() == 0)
+	{
+		// Đá mai rùa
+		koopa->SetVX((e->nx > 0) ? -KOOPA_SPIN_SPEED : KOOPA_SPIN_SPEED);
+	}
+	else
+	{
+		// Bị hại (gặp rùa đang đi hoặc mai rùa đang chạy hoặc bị rơi trúng)
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+
+
+
+//
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -314,10 +372,13 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
-		ax = 0;
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->life--;
+
 		break;
+
 	}
 
 	CGameObject::SetState(state);

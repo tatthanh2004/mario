@@ -1,4 +1,7 @@
 #include "Goomba.h"
+#include "PlayScene.h"
+#include "Game.h"
+
 
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
@@ -81,11 +84,13 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_DIE:
-			die_start = GetTickCount64();
-			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
+			y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
-			vy = 0;
-			ay = 0; 
+			ay = 0;
+			die_start = GetTickCount();
+
+			((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->score += 200;
+
 			break;
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;

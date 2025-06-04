@@ -1,0 +1,6 @@
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\mario.vcxproj.CopyComplete
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\mario.exe
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\D3DCompiler_43.dll
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\d3dx9d_43.dll
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\d3dx10d_43.dll
+C:\Users\Hi\OneDrive\Desktop\mario\Debug\d3dx11d_43.dll

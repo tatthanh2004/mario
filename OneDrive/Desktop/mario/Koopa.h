@@ -13,16 +13,20 @@
 
 #define ID_ANI_KOOPA_WALKING 6000
 #define ID_ANI_KOOPA_SPIN 6001
+#define ID_ANI_KOOPA_WALKING_RIGHT   6002
 
 #define KOOPA_SPIN_TIMEOUT 5000
 
 #define OBJECT_TYPE_KOOPA 3
+
+#define KOOPA_SPIN_SPEED 0.2f
 
 class CKoopa : public CGameObject
 {
 protected:
     float ax;
     float ay;
+    bool isBeingHeld = false;
 
     ULONGLONG spin_start;
 
@@ -36,7 +40,17 @@ protected:
 
     virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
+    
+
+
 public:
     CKoopa(float x, float y);
     virtual void SetState(int state);
+
+    float GetVX() { return vx; }
+    void SetVX(float _vx) { vx = _vx; }
+    int GetState() { return state; }
+    //
+    bool faceRight;
+
 };
