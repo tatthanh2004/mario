@@ -42,7 +42,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
     {
         vy = 0;
     }
-    else if (e->nx != 0 && state == KOOPA_STATE_WALKING)
+    else if (e->nx != 0 )
     {
         vx = -vx;
         faceRight = (vx > 0);

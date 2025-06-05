@@ -2,8 +2,8 @@
 #include "GameObject.h"
 
 #define ID_ANI_PIPE_HEAD 10001
-#define PIPE_WIDTH 33
-#define PIPE_HEIGHT 33
+#define PIPE_WIDTH 32
+#define PIPE_HEIGHT 32
 
 class CPipeHead : public CGameObject {
 public:

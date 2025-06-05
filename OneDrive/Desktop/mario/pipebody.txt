@@ -1,11 +1,8 @@
 [SPRITES]
 # id	left	top	right	bottom	texture_id
-30002	5	101	36	118	10		# Pipe Head (miệng ống) từ enemies.png, size 33x33
+30002	5	100	36	118	10		
 
 [ANIMATIONS]
 # ani_id	sprite1_id	time1
-10002	30002	1000	
+10002	30002	1000
 
-[ANIMATION_SETS]
-# ani_set_id	ani_id_list
-1001	10001

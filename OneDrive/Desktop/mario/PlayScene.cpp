@@ -58,7 +58,7 @@
 			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
 			return; 
 		}
-
+		DebugOut(L"[DEBUG] Sprite line: %S\n", line.c_str());
 		CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 	}
 

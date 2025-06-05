@@ -7,6 +7,7 @@ CSprites* CSprites::__instance = NULL;
 CSprites* CSprites::GetInstance()
 {
 	if (__instance == NULL) __instance = new CSprites();
+
 	return __instance;
 }
 
