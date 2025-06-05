@@ -1,4 +1,5 @@
 ﻿#include "Koopa.h"
+#include "debug.h"
 
 CKoopa::CKoopa(float x, float y) : CGameObject(x, y)
 {
@@ -44,6 +45,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
     else if (e->nx != 0 && state == KOOPA_STATE_WALKING)
     {
         vx = -vx;
+        faceRight = (vx > 0);
     }
 }
 
@@ -68,12 +70,14 @@ void CKoopa::Render()
     int aniId = ID_ANI_KOOPA_WALKING;
     if (state == KOOPA_STATE_SPIN)
         aniId = ID_ANI_KOOPA_SPIN;
+    
     //else if (vx > 0)
-    //    aniId = ID_ANI_KOOPA_WALKING_RIGHT;//
+    //    aniId = ID_ANI_KOOPA_WALKING_RIGHT;
 
     CAnimations::GetInstance()->Get(aniId)->Render(x, y);
     RenderBoundingBox();
 }
+
 
 void CKoopa::SetState(int state)
 {
@@ -91,9 +95,13 @@ void CKoopa::SetState(int state)
         y = old_bottom - KOOPA_BBOX_HEIGHT_DIE / 2;
         break;
     case KOOPA_STATE_WALKING:
-        vx = -KOOPA_WALKING_SPEED;
+        vx = -KOOPA_WALKING_SPEED;    
+
         ay = KOOPA_GRAVITY;
         y = old_bottom - KOOPA_BBOX_HEIGHT / 2;
         break;
     }
+
+    
+
 }

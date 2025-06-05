@@ -14,8 +14,8 @@
 
 	#include "HUD.h"
 	#include "Koopa.h"
-
-
+	#include "PipeHead.h"
+	#include "PipeBody.h"
 	using namespace std;
 
 	CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -107,7 +107,8 @@
 		int object_type = atoi(tokens[0].c_str());
 		float x = (float)atof(tokens[1].c_str());
 		float y = (float)atof(tokens[2].c_str());
-
+		//
+		
 		CGameObject *obj = NULL;
 
 		switch (object_type)
@@ -153,13 +154,14 @@
 			int scene_id = atoi(tokens[5].c_str());
 			obj = new CPortal(x, y, r, b, scene_id);
 		} break;
-		//
-
+		
 		case OBJECT_TYPE_KOOPA:
 		{
 			obj = new CKoopa(x, y); break;
 		}
-			
+		//
+		case OBJECT_TYPE_PIPE_HEAD: obj = new CPipeHead(x, y); break;
+		//case OBJECT_TYPE_PIPE_BODY: obj = new CPipeBody(x, y); break;
 		//
 		break;
 
@@ -171,8 +173,7 @@
 
 		// General object setup
 		obj->SetPosition(x, y);
-
-
+		
 		objects.push_back(obj);
 	}
 

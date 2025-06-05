@@ -5,6 +5,7 @@ coin.txt
 cloud.txt
 brick.txt
 koopa.txt
+pipe.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -12,7 +13,7 @@ koopa.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-3	160	11  # KOOPA
+
 0	120	10
 
 #COIN
