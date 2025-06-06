@@ -1,5 +1,4 @@
-﻿#include <algorithm>
-#include "debug.h"
+﻿#include "debug.h"
 
 #include "Mario.h"
 #include "Game.h"
@@ -12,24 +11,25 @@
 #include "Collision.h"
 
 #include "PlayScene.h"
+#include <algorithm>
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+
 	vy += ay * dt;
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
+	if (GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
 	}
 	//////////////////////
 	// Check if Mario falls below death threshold
-	if (y > 196)
+	if (y > 196 && state != MARIO_STATE_DIE)
 	{
 		CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 		if (scene->life > 0)
@@ -62,11 +62,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
-	{
-		vx = 0;
-	}
+	else
+		if (e->nx != 0 && e->obj->IsBlocking())
+		{
+			vx = 0;
+		}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -87,16 +87,15 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
-	// Nếu Mario ở TRÊN đạp xuống Koopa → chỉ lúc này mới xử lý đạp
-	if (e->ny < 0)
+	if (e->ny < 0) // Đạp lên
 	{
 		if (koopa->GetState() == KOOPA_STATE_WALKING)
 		{
 			koopa->SetState(KOOPA_STATE_SPIN);
+			koopa->SetVX(0); // đứng yên
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			return;
 		}
-
 		if (koopa->GetState() == KOOPA_STATE_SPIN && koopa->GetVX() != 0)
 		{
 			koopa->SetVX(0);
@@ -105,9 +104,16 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 		}
 	}
 
-	
 	if (untouchable) return;
 
+	// Cầm mai rùa
+	if (koopa->GetState() == KOOPA_STATE_SPIN && koopa->GetVX() == 0 && CGame::GetInstance()->IsKeyDown(DIK_A))
+	{
+		holdingKoopa = koopa;
+		return;
+	}
+
+	// Nếu không cầm được → xử lý va chạm như bình thường
 	if (koopa->GetState() == KOOPA_STATE_SPIN && koopa->GetVX() == 0)
 	{
 		// Đá mai rùa
@@ -115,7 +121,6 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	else
 	{
-		// Bị hại (gặp rùa đang đi hoặc mai rùa đang chạy hoặc bị rơi trúng)
 		if (level > MARIO_LEVEL_SMALL)
 		{
 			level = MARIO_LEVEL_SMALL;
@@ -315,14 +320,14 @@ void CMario::Render()
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
-	
+
 	DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -371,7 +376,7 @@ void CMario::SetState(int state)
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0; vy = 0.0f;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
+			y += MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
 
@@ -394,7 +399,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->life--;
-		
+
 		break;
 
 	}
@@ -402,9 +407,9 @@ void CMario::SetState(int state)
 	CGameObject::SetState(state);
 }
 
-void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (level==MARIO_LEVEL_BIG)
+	if (level == MARIO_LEVEL_BIG)
 	{
 		if (isSitting)
 		{
@@ -413,18 +418,18 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else 
+		else
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
-			top = y - MARIO_BIG_BBOX_HEIGHT/2;
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
 	else
 	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
+		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
+		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
@@ -439,4 +444,3 @@ void CMario::SetLevel(int l)
 	}
 	level = l;
 }
-

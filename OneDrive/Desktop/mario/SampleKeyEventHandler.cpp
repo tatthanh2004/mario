@@ -47,6 +47,16 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+		////////////////
+	case DIK_A:
+		if (mario->holdingKoopa)
+		{
+			CKoopa* k = mario->holdingKoopa;
+			k->SetVX(mario->GetNx() > 0 ? KOOPA_SPIN_SPEED : -KOOPA_SPIN_SPEED);
+			mario->holdingKoopa = NULL;
+		}
+		break;
+		//////////////
 	}
 }
 

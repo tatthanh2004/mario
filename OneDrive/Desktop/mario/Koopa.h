@@ -39,9 +39,9 @@ protected:
     virtual void OnNoCollision(DWORD dt);
 
     virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-    //
+    
     void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
-    //
+    
 
 public:
     CKoopa(float x, float y);
@@ -50,7 +50,8 @@ public:
     float GetVX() { return vx; }
     void SetVX(float _vx) { vx = _vx; }
     int GetState() { return state; }
-    //
+    
     bool faceRight;
+  
 
 };

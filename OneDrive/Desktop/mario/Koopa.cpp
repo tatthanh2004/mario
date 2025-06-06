@@ -91,9 +91,9 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
         float kl, kt, kr, kb;
         GetBoundingBox(kl, kt, kr, kb);
 
-        // Điểm cần kiểm tra dưới chân trái/phải
+        
         float check_x = (vx > 0) ? kr - 1 : kl + 1;
-        float check_y = kb + 1; // ngay dưới chân
+        float check_y = kb + 1; 
 
         bool supported = false;
 
