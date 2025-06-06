@@ -48,7 +48,6 @@ public:
 	int timeLeft = 300; // Giảm dần mỗi frame nếu muốn
 	int life = 3;
 	
-
 };
 
 typedef CPlayScene* LPPLAYSCENE;

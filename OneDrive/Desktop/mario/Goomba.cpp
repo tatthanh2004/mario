@@ -75,6 +75,7 @@ void CGoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
+	//DebugOut(L"Goomba render at x = %f, y = %f\n", x, y);
 	RenderBoundingBox();
 }
 

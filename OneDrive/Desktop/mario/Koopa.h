@@ -39,9 +39,9 @@ protected:
     virtual void OnNoCollision(DWORD dt);
 
     virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
-    
-
+    //
+    void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+    //
 
 public:
     CKoopa(float x, float y);

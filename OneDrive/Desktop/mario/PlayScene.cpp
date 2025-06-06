@@ -58,7 +58,7 @@
 			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
 			return; 
 		}
-		DebugOut(L"[DEBUG] Sprite line: %S\n", line.c_str());
+		
 		CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 	}
 
@@ -121,7 +121,7 @@
 			}
 			obj = new CMario(x,y); 
 			player = (CMario*)obj;  
-
+			
 			DebugOut(L"[INFO] Player object has been created!\n");
 			break;
 		case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
@@ -155,27 +155,25 @@
 			obj = new CPortal(x, y, r, b, scene_id);
 		} break;
 		
-		case OBJECT_TYPE_KOOPA:
-		{
-			obj = new CKoopa(x, y); break;
-		}
+		case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
+
 		//
 		case OBJECT_TYPE_PIPE_HEAD: obj = new CPipeHead(x, y); break;
-		//case OBJECT_TYPE_PIPE_BODY: obj = new CPipeBody(x, y); break;
+
+		case OBJECT_TYPE_PIPE_BODY: obj = new CPipeBody(x, y); break;
 		//
 		break;
 
 
 		default:
 			DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
-			return;
 		}
 
 		// General object setup
 		obj->SetPosition(x, y);
 		
 		objects.push_back(obj);
-	}
+}
 
 	void CPlayScene::LoadAssets(LPCWSTR assetFile)
 	{
@@ -387,3 +385,5 @@
 			std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 			objects.end());
 	}
+
+	//

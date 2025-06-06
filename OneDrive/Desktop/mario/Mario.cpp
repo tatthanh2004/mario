@@ -15,6 +15,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -376,7 +377,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 		((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->life--;
-
+		
 		break;
 
 	}

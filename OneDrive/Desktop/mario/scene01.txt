@@ -6,8 +6,8 @@ coin.txt
 goomba.txt
 cloud.txt
 koopa.txt
-#pipebody.txt
 pipe.txt
+pipebody.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -119,17 +119,21 @@ pipe.txt
 4	180	120
 
 #Goomba
-2	300	10
+2	300	164
+2	200	164
+2	250	164
+
 
 #koopa
 3	250	10
-
-
 
 
 #Portal 
 50	300	110	316	140	2
 
 
-7	100	148
-#8       100     164	
+7	100	156
+
+
+
+8       150     156
