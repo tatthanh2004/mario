@@ -1,7 +1,6 @@
-﻿#include "Koopa.h"
-
-#include "Goomba.h"
-
+﻿#include "Goomba.h"
+#include "Koopa.h"
+#include "Brick.h"
 CKoopa::CKoopa(float x, float y) : CGameObject(x, y)
 {
     this->ax = 0;
@@ -42,7 +41,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
     // 
     if (dynamic_cast<CKoopa*>(e->obj)) return;
 
-    
+
     if (dynamic_cast<CGoomba*>(e->obj))
     {
         OnCollisionWithGoomba(e);
@@ -77,7 +76,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
     if (state == KOOPA_STATE_SPIN && GetTickCount() - spin_start > KOOPA_SPIN_TIMEOUT)
     {
-        if (vx == 0) 
+        if (vx == 0)
             SetState(KOOPA_STATE_WALKING);
     }
 
@@ -86,6 +85,37 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
     CGameObject::Update(dt, coObjects);
     CCollision::GetInstance()->Process(this, dt, coObjects);
+    /////
+    if (state == KOOPA_STATE_WALKING)
+    {
+        float kl, kt, kr, kb;
+        GetBoundingBox(kl, kt, kr, kb);
+
+        // Điểm cần kiểm tra dưới chân trái/phải
+        float check_x = (vx > 0) ? kr - 1 : kl + 1;
+        float check_y = kb + 1; // ngay dưới chân
+
+        bool supported = false;
+
+        for (LPGAMEOBJECT obj : *coObjects)
+        {
+            if (!dynamic_cast<CBrick*>(obj)) continue;
+
+            float bl, bt, br, bb;
+            obj->GetBoundingBox(bl, bt, br, bb);
+
+            if (check_x >= bl && check_x <= br && check_y >= bt && check_y <= bb)
+            {
+                supported = true;
+                break;
+            }
+        }
+
+        if (!supported)
+        {
+            vx = -vx;
+        }
+    }
 }
 
 void CKoopa::Render()
