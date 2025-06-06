@@ -45,6 +45,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	//////////////////
+
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	if (holdingKoopa)
 	{
@@ -182,9 +183,11 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
-	CPortal* p = (CPortal*)e->obj;
-	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+	/*CPortal* p = (CPortal*)e->obj;
+	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());*/
 }
+
+
 
 //
 // Get animation ID for small Mario

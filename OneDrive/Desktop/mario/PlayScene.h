@@ -47,6 +47,9 @@ public:
 	int coins = 0;
 	int timeLeft = 300; // Giảm dần mỗi frame nếu muốn
 	int life = 3;
+
+	
+	vector<LPGAMEOBJECT> GetObjects() { return objects; }
 	
 };
 

@@ -1,11 +1,11 @@
-#include "SampleKeyEventHandler.h"
+﻿#include "SampleKeyEventHandler.h"
 
 #include "debug.h"
 #include "Game.h"
 
 #include "Mario.h"
 #include "PlayScene.h"
-
+#include "Portal.h"
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -14,8 +14,46 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
+		/*mario->SetState(MARIO_STATE_SIT);
+		break;*/
+	{
 		mario->SetState(MARIO_STATE_SIT);
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		if (!scene) break;
+
+		CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+
+		if (mario)
+		{
+			float ml, mt, mr, mb;
+			mario->GetBoundingBox(ml, mt, mr, mb);
+
+			// Lấy danh sách object trong scene hiện tại
+			CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			if (!scene) break;
+
+			for (LPGAMEOBJECT obj : scene->GetObjects())
+			{
+				if (dynamic_cast<CPortal*>(obj))
+				{
+					float pl, pt, pr, pb;
+					obj->GetBoundingBox(pl, pt, pr, pb);
+
+					// Kiểm tra chạm AABB
+					if (!(mr < pl || ml > pr || mb < pt || mt > pb))
+					{
+						CPortal* portal = dynamic_cast<CPortal*>(obj);
+						CGame::GetInstance()->InitiateSwitchScene(portal->GetSceneId());
+						return;
+					}
+				}
+			}
+		}
 		break;
+	}
+
+	
+	
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
