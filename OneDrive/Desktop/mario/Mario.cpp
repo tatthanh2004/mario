@@ -27,7 +27,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
+	//////////////////////
+	// Check if Mario falls below death threshold
+	if (y > 196)
+	{
+		CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+		if (scene->life > 0)
+		{
+			scene->life--;
+			SetState(MARIO_STATE_IDLE);
+			SetPosition(start_x, start_y);
+			vx = 0; vy = 0;
+		}
+		else
+		{
+			CGame::GetInstance()->InitiateSwitchScene(5); // scene0005 = Game Over
+		}
+	}
+	//////////////////
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

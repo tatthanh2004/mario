@@ -123,6 +123,10 @@ class CMario : public CGameObject
 	int GetAniIdBig();
 	int GetAniIdSmall();
 
+	/////////////////
+	float start_x;
+	float start_y;
+
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -136,6 +140,10 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		//
+		start_x = x;
+		start_y = y;
+		//////////////////////
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
