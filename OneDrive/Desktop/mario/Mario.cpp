@@ -46,6 +46,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	//////////////////
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+	if (holdingKoopa)
+	{
+		holdingKoopa->SetPosition(x + (nx > 0 ? +10 : -10), y); // dịch nhẹ qua trái/phải
+	}
 }
 
 void CMario::OnNoCollision(DWORD dt)

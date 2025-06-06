@@ -1,5 +1,5 @@
 [SPRITES]
-# id	left	top	right	bottom	texture_id
+# id	left	top	right	bottom	textured
 30001	4	86	37	118	10		# Pipe Head (miệng ống) từ enemies.png, size 33x33
 
 [ANIMATIONS]
